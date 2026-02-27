@@ -1,0 +1,66 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: requesting-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: requesting-service
+  template:
+    metadata:
+      labels:
+        app: requesting-service
+    spec:
+      containers:
+        - name: requesting-service
+          image: requesting-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: requesting-service
+spec:
+  selector:
+    app: requesting-service
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculating-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calculating-service
+  template:
+    metadata:
+      labels:
+        app: calculating-service
+    spec:
+      containers:
+        - name: calculating-service
+          image: calculating-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculating-service
+spec:
+  selector:
+    app: calculating-service
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
