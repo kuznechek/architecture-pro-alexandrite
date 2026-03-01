@@ -1,0 +1,19 @@
+@startuml
+!theme cerulean-outline
+
+title Изменение статуса заказа
+
+participant UI
+participant RabbitMQ
+participant CRM_API
+database Shop_DB
+database Redis
+
+UI -> CRM_API: PUT
+CRM_API -> Shop_DB: UPDATE
+Shop_DB -> CRM_API: OK
+CRM_API -> Redis: DEL
+CRM_API -> RabbitMQ: PUBLISH
+CRM_API -> UI: 200 OK
+
+@enduml
