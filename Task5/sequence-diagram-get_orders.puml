@@ -1,0 +1,23 @@
+@startuml
+!theme cerulean-outline
+title Чтение списка заказов
+
+participant Dashboard
+participant MES_API
+database Redis
+database MES_DB
+
+Dashboard -> MES_API: GET
+MES_API -> Redis: GET
+
+alt Cache HIT
+    Redis -> MES_API: [данные из кеша]
+    MES_API -> Dashboard: Список заказов
+else Cache MISS
+    Redis -> MES_API: null
+    MES_API -> MES_DB: GET
+    MES_DB -> MES_API: [результаты из БД]
+    MES_API -> Dashboard: Список заказов
+end
+
+@enduml
