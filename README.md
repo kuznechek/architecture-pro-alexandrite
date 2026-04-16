@@ -1,2 +1,2 @@
 # architecture-pro-alexandrite
-Yandex-Practicum Software Architecture Sprint 6
+Yandex-Practicum Software Architecture Sprint 6.
